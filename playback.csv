@@ -1,0 +1,4 @@
+ID,Service,URI,Name,Type
+000000000001,spot,spotify:album:2noRn2Aes5aoNVsU6iWThc,Daft Punk: Discovery,Album
+000000000002,spot,spotify:playlist:37i9dQZEVXbMDoHDwVN2tF,Top 50 - Global,Playlist
+000000000003,webradio,http://stream.live.vc.bbcmedia.co.uk/bbc_radio_one,BBC Radio One,Web Radio
