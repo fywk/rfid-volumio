@@ -13,8 +13,24 @@ You also have the necessary components listed below:
 
 ## Installation
 
-1. Enter your records into the `playback.csv` file. You can remove the sample records for demonstration purpose.
-2. Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` to continuously runs at boot time and keeps on running in the background.
+- Ensure the SPI interface is activated, by adding the following line to `/boot/userconfig.txt`.
+
+```
+dtparam=spi=on
+```
+
+- Ensure that both `spidev` and `mfrc522` Python modules are installed.
+
+```bash
+sudo apt-get update
+sudo apt-get install python3-pip
+sudo pip3 install spidev
+sudo pip3 install mfrc522
+```
+
+- Enter your records into the `playback.csv` file. You may remove the sample records.
+
+- Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` to continuously runs at boot time and keeps on running in the background.
 
 ## Example Playback URIs
 
@@ -45,9 +61,10 @@ Some example URIs that Volumio supports that can be inserted into CSV file:
 
 Checkout Volumio REST API [documentation](https://volumio.github.io/docs/API/REST_API.htm) for more information.
 
-## Special Thanks
+## Acknowledgements
 
-To these projects for the inspiration:
+Special thanks to these projects for inspired me on this project:
 
-- [tinkerthon / volumio-rfid](https://github.com/tinkerthon/volumio-rfid)
-- [talaexe / Spotify-RFID-Record-Player](https://github.com/talaexe/Spotify-RFID-Record-Player)
+- [tinkerthon/volumio-rfid](https://github.com/tinkerthon/volumio-rfid)
+- [talaexe/Spotify-RFID-Record-Player](https://github.com/talaexe/Spotify-RFID-Record-Player)
+- [yuergen/phoniebox](https://github.com/yuergen/phoniebox)
