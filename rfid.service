@@ -1,0 +1,9 @@
+[Unit]
+Description=Control Volumio via RFID
+
+[Service]
+ExecStart=/home/volumio/rfid-volumio/main.py
+WorkingDirectory=/home/volumio/rfid-volumio
+Restart=on-failure
+RestartSec=5s
+Environment=PYTHONUNBUFFERED=1

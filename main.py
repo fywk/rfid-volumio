@@ -11,9 +11,9 @@ from mfrc522 import SimpleMFRC522
 from pathlib import Path
 
 env = ConfigParser()
-env.read("/home/volumio/rfid-volumio/.env")
+env.read("./.env")
 
-CSV_FILE = "playback.csv"
+CSV_FILE = "./playback.csv"
 
 # Volumio API
 TOGGLE_PLAY_PAUSE_URL = "http://localhost:3000/api/v1/commands/?cmd=toggle"
@@ -29,14 +29,14 @@ STOP_ID = env["Control"]["STOP_ID"]
 PREVIOUS_ID = env["Control"]["PREVIOUS_ID"]
 NEXT_ID = env["Control"]["NEXT_ID"]
 
-reader = SimpleMFRC522()
+scanner = SimpleMFRC522()
 last_id = None
 
 
 def search(id):
-    with open(CSV_FILE, "r") as file:
-        data = csv.DictReader(file)
-        for row in data:
+    with open(CSV_FILE) as file:
+        reader = csv.DictReader(file)
+        for row in reader:
             if row["ID"] == id:
                 return row["Service"], row["URI"], row["Name"]
 
@@ -61,7 +61,7 @@ try:
         print("Ready to scan tag...\n")
 
         while True:
-            id = str(reader.read_id())
+            id = str(scanner.read_id())
             if id:
                 if id == last_id:
                     continue
