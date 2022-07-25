@@ -4,16 +4,16 @@ import csv
 import json
 import requests
 import RPi.GPIO as GPIO
+import os
 import sys
 import time
-from configparser import ConfigParser
+from dotenv import load_dotenv
 from mfrc522 import SimpleMFRC522
 from pathlib import Path
 
-env = ConfigParser()
-env.read("./.env")
+load_dotenv()  # load environment variables from .env
 
-CSV_FILE = "./playback.csv"
+CSV_FILE = "playback.csv"
 
 # Volumio API
 TOGGLE_PLAY_PAUSE_URL = "http://localhost:3000/api/v1/commands/?cmd=toggle"
@@ -24,10 +24,10 @@ GET_STATE_URL = "http://localhost:3000/api/v1/getState"
 REPLACE_AND_PLAY_URL = "http://localhost:3000/api/v1/replaceAndPlay"
 
 # Playback Control Tags
-TOGGLE_PLAY_PAUSE_ID = env["Control"]["TOGGLE_PLAY_PAUSE_ID"]
-STOP_ID = env["Control"]["STOP_ID"]
-PREVIOUS_ID = env["Control"]["PREVIOUS_ID"]
-NEXT_ID = env["Control"]["NEXT_ID"]
+TOGGLE_PLAY_PAUSE_ID = os.getenv("TOGGLE_PLAY_PAUSE_ID")
+STOP_ID = os.getenv("STOP_ID")
+PREVIOUS_ID = os.getenv("PREVIOUS_ID")
+NEXT_ID = os.getenv("NEXT_ID")
 
 scanner = SimpleMFRC522()
 last_id = None
@@ -51,9 +51,6 @@ def play(id):
                       headers=headers, data=json.dumps(payload))
     else:
         print(f"The ID '{id}' could not be found in '{CSV_FILE}'.\n")
-
-
-#------------------------------------------------------------------------------#
 
 
 try:
