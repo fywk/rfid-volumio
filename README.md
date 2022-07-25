@@ -13,13 +13,13 @@ You also have the necessary components listed below:
 
 ## Installation
 
-1. Ensure the SPI interface is activated, by adding the following line to `/boot/userconfig.txt`.
+- Ensure the SPI interface is activated, by adding the following line to `/boot/userconfig.txt`.
 
 ```
 dtparam=spi=on
 ```
 
-2. Install `python-dotenv`, `spidev` and `mfrc522` Python modules.
+- Install `python-dotenv`, `spidev` and `mfrc522` Python modules.
 
 ```bash
 sudo apt-get update
@@ -27,16 +27,16 @@ sudo apt-get install python3-pip
 sudo pip3 install python-dotenv spidev mfrc522
 ```
 
-3. Run the `read.py` utility to get the ID of RFID tags that you've acquired.
+- Run the `read.py` utility to get the ID of your RFID tag.
 
 ```bash
 cd rfid-volumio
 python3 utils/read.py
 ```
 
-4. Create a `.env` file similar to [`.env.example`](https://github.com/fywk/rfid-volumio/blob/main/.env.example) and add RFID tag IDs for playback controls.
+- Create a `.env` file similar to [`.env.example`](https://github.com/fywk/rfid-volumio/blob/main/.env.example) and add RFID tag IDs for playback controls.
 
-5. Create a CSV file named `playback.csv` that contains all the records of media you would like to play in the following format:
+- Create a CSV file named `playback.csv` that contains all the records of media you would like to play in the following format:
 
 ```csv
 ID,Service,URI,Name,Type
@@ -46,15 +46,15 @@ ID,Service,URI,Name,Type
 
 > You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file.
 
-6. Run `main.py` to test if everything is working properly. You should hear music start playing when you scan a tag with a matching ID in `playback.csv`.
+- Run `main.py` to test if everything is working properly. You should hear music start playing when you scan a tag with a matching ID in `playback.csv`.
 
 ```bash
 python3 main.py
 ```
 
-7. Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` to have this program start running automatically at boot time and continuously in the background.
+- Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` to have this program start running automatically at boot time and continuously in the background.
 
-> Outputs from the program can be viewed by running `journalctl -f -u rfid.service`, once the program is started automatically at boot time.
+> Outputs from the program can be viewed by running `journalctl -f -u rfid.service` once the program is started automatically at boot time.
 
 ## Example Playback URIs
 
