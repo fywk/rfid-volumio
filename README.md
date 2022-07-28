@@ -44,6 +44,7 @@ ID,Service,URI,Name,Type
 000000000000,webradio,http://stream.live.vc.bbcmedia.co.uk/bbc_radio_two,BBC Radio Two,Web Radio
 ```
 
+> **Note**:
 > You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file.
 
 - Run `main.py` to test if everything is working properly. You should hear music start playing when you scan a tag with a matching ID in `playback.csv`.
@@ -52,8 +53,20 @@ ID,Service,URI,Name,Type
 python3 main.py
 ```
 
-- Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` to have this program start running automatically at boot time and continuously in the background.
+- Change access permissions of `main.py` to become executable.
 
+```bash
+chmod +x main.py
+```
+
+- Copy the `rfid.service` file to `/etc/systemd/system/rfid.service` and enable the service to allow this program run automatically at boot time and continuously in the background.
+
+```bash
+sudo cp -v rfid.service /etc/systemd/system/rfid.service
+sudo systemctl enable rfid.service
+```
+
+> **Note**:
 > Outputs from the program can be viewed by running `journalctl -f -u rfid.service` once the program is started automatically at boot time.
 
 ## Example Playback URIs
@@ -87,7 +100,9 @@ Checkout Volumio REST API [documentation](https://volumio.github.io/docs/API/RES
 
 ## Acknowledgements
 
-Special thanks to these projects for inspired me on this project:
+Special thanks to [pimylifeup/MFRC522-python](https://github.com/pimylifeup/MFRC522-python) library for enabling the reading (and writing) of RFID tags via RC522 RFID module. Check out this [blog post](https://pimylifeup.com/raspberry-pi-rfid-rc522/) to learn how to get it set up with a Raspberry Pi.
+
+Also thanks to these projects that have inspired me on this project:
 
 - [tinkerthon/volumio-rfid](https://github.com/tinkerthon/volumio-rfid)
 - [talaexe/Spotify-RFID-Record-Player](https://github.com/talaexe/Spotify-RFID-Record-Player)
