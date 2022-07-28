@@ -7,3 +7,6 @@ WorkingDirectory=/home/volumio/rfid-volumio
 Restart=on-failure
 RestartSec=5s
 Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
