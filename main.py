@@ -53,10 +53,18 @@ def play(id):
         print(f"The ID '{id}' could not be found in '{CSV_FILE}'.\n")
 
 
-try:
-    if Path(CSV_FILE).is_file():
-        print("Ready to scan tag...\n")
+def welcome():
+    print("   ___  ___________    _   __     __           _    ")
+    print("  / _ \/ __/  _/ _ \  | | / /__  / /_ ____ _  (_)__ ")
+    print(" / , _/ _/_/ // // /  | |/ / _ \/ / // /  ' \/ / _ \\")
+    print("/_/|_/_/ /___/____/   |___/\___/_/\_,_/_/_/_/_/\___/")
+    print()
 
+
+try:
+    welcome()
+    if Path(CSV_FILE).is_file():
+        print("✔ Ready to scan...\n")
         while True:
             id = str(scanner.read_id())
             if id:
@@ -95,7 +103,7 @@ try:
 
                 last_id = None
     else:
-        print(f"The file '{CSV_FILE}' does not exist.\n")
+        print(f"✖ The file '{CSV_FILE}' does not exist.\n")
         sys.exit()
 
 finally:
