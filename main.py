@@ -54,11 +54,7 @@ def play(id):
 
 
 def welcome():
-    print("   ___  ___________    _   __     __           _    ")
-    print("  / _ \/ __/  _/ _ \  | | / /__  / /_ ____ _  (_)__ ")
-    print(" / , _/ _/_/ // // /  | |/ / _ \/ / // /  ' \/ / _ \\")
-    print("/_/|_/_/ /___/____/   |___/\___/_/\_,_/_/_/_/_/\___/")
-    print()
+    print("RFID Volumio - Control Volumio on Raspberry Pi via RFID")
 
 
 try:
