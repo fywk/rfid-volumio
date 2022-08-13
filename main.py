@@ -1,29 +1,30 @@
 #!/usr/bin/env python3
 
 import csv
-import json
-import requests
-import RPi.GPIO as GPIO
 import os
 import sys
 import time
+from pathlib import Path
+
+import requests
+import RPi.GPIO as GPIO
 from dotenv import load_dotenv
 from mfrc522 import SimpleMFRC522
-from pathlib import Path
 
 load_dotenv()  # load environment variables from .env
 
+# CSV file containing a list of tag IDs and and their corresponding playback URIs
 CSV_FILE = "playback.csv"
 
-# Volumio API
-TOGGLE_PLAY_PAUSE_URL = "http://localhost:3000/api/v1/commands/?cmd=toggle"
-STOP_URL = "http://localhost:3000/api/v1/commands/?cmd=stop"
-PREVIOUS_URL = "http://localhost:3000/api/v1/commands/?cmd=prev"
-NEXT_URL = "http://localhost:3000/api/v1/commands/?cmd=next"
-GET_STATE_URL = "http://localhost:3000/api/v1/getState"
-REPLACE_AND_PLAY_URL = "http://localhost:3000/api/v1/replaceAndPlay"
+# Volumio API endpoints
+VOLUMIO_API_ROOT = "http://localhost:3000/api/v1"
+TOGGLE_PLAY_PAUSE_URL = "commands/?cmd=toggle"
+STOP_URL = "commands/?cmd=stop"
+PREVIOUS_URL = "/commands/?cmd=prev"
+NEXT_URL = "commands/?cmd=next"
+REPLACE_AND_PLAY_URL = "replaceAndPlay"
 
-# Playback Control Tags
+# Tag IDs for playback controls
 TOGGLE_PLAY_PAUSE_ID = os.getenv("TOGGLE_PLAY_PAUSE_ID")
 STOP_ID = os.getenv("STOP_ID")
 PREVIOUS_ID = os.getenv("PREVIOUS_ID")
@@ -31,6 +32,14 @@ NEXT_ID = os.getenv("NEXT_ID")
 
 scanner = SimpleMFRC522()
 last_id = None
+
+
+def welcome():
+    print("RFID Volumio - Control Volumio on Raspberry Pi via RFID")
+
+
+def is_control_id(id, ids):
+    return any(x == id for x in ids)
 
 
 def search(id):
@@ -45,16 +54,10 @@ def play(id):
     if search(id):
         service, uri, name = search(id)
         print(f"{name}\n")
-        headers = {"content-type": "application/json"}
         payload = {"service": service, "uri": uri}
-        requests.post(REPLACE_AND_PLAY_URL,
-                      headers=headers, data=json.dumps(payload))
+        requests.post(f"{VOLUMIO_API_ROOT}/{REPLACE_AND_PLAY_URL}", json=payload)
     else:
-        print(f"The ID '{id}' could not be found in '{CSV_FILE}'.\n")
-
-
-def welcome():
-    print("RFID Volumio - Control Volumio on Raspberry Pi via RFID")
+        print(f"The ID \"{id}\" could not be found in either '.env' or '{CSV_FILE}'.\n")
 
 
 try:
@@ -69,30 +72,29 @@ try:
 
                 print(f"{id} ==> ", end="")
 
-                if id == TOGGLE_PLAY_PAUSE_ID:
-                    print("Play/Pause\n")
-                    url = TOGGLE_PLAY_PAUSE_URL
-                elif id == STOP_ID:
-                    print("Stop\n")
-                    url = STOP_URL
-                elif id == PREVIOUS_ID:
-                    print("Previous\n")
-                    url = PREVIOUS_URL
-                elif id == NEXT_ID:
-                    print("Next\n")
-                    url = NEXT_URL
+                if is_control_id(
+                    id, [TOGGLE_PLAY_PAUSE_ID, STOP_ID, PREVIOUS_ID, NEXT_ID]
+                ):
+                    if id == TOGGLE_PLAY_PAUSE_ID:
+                        name = "Play/Pause"
+                        url = TOGGLE_PLAY_PAUSE_URL
+                    elif id == STOP_ID:
+                        name = "Stop"
+                        url = STOP_URL
+                    elif id == PREVIOUS_ID:
+                        name = "Previous"
+                        url = PREVIOUS_URL
+                    elif id == NEXT_ID:
+                        name = "Next"
+                        url = NEXT_URL
+
+                    print(f"{name}\n")
+                    last_id = None
+                    requests.get(f"{VOLUMIO_API_ROOT}/{url}", timeout=0.1)
+                    time.sleep(2.5)
                 else:
                     last_id = id
                     play(id)
-
-                try:
-                    if url:
-                        last_id = None
-                        requests.get(url, timeout=0.1)
-                        time.sleep(2.5)
-                except:
-                    pass
-
             else:
                 if not last_id:
                     continue
