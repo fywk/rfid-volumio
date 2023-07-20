@@ -21,14 +21,33 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
 
 ## Installation
 
-1. Ensure the SPI interface is activated, by adding the following line to `/boot/userconfig.txt`.
+1. Activate the SPI interface.
 
-   ```
-   dtparam=spi=on
-   ```
+   - Open the user's boot configuration file.
 
-   | :sos: | If you encounter any problems enabling SPI, follow this [guide](https://pimylifeup.com/raspberry-pi-rfid-rc522/#setting-up-raspbian-for-the-rfid-rc522). |
-   | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+     ```bash
+     nano /boot/userconfig.txt
+     ```
+
+   - Add the following line within the file:
+
+     ```
+     dtparam=spi=on
+     ```
+
+   - Save the changes to the configuration file. Then reboot the device.
+
+     ```bash
+     sudo reboot
+     ```
+
+   - Once rebooted, check if SPI has successfully been enabled by executing the following command:
+
+     ```bash
+      lsmod | grep spi
+     ```
+
+   - If **spi_bcm2835** is listed on the output, that means the SPI interface on your Raspberry Pi has been activated.
 
 2. Install `python-dotenv`, `spidev` and `mfrc522` Python modules.
 
@@ -88,7 +107,7 @@ Some examples of playback URIs that Volumio supports that can be inserted into `
 
 | Service  | URI                                         | Notes                   |
 | -------- | ------------------------------------------- | ----------------------- |
-| mpd      | albums://C418/2%20years%20of%20failure      | -                       |
+| mpd      | albums://C418/2%20years%20of%20failure      |                         |
 | spop     | spotify:track:4cOdK2wGLETKBW3PvgPWqT        | Require Spotify plugin. |
 | webradio | https://somafm.com/nossl/groovesalad256.pls | -                       |
 
