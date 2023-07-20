@@ -107,7 +107,7 @@ Some examples of playback URIs that Volumio supports that can be inserted into `
 
 | Service  | URI                                         | Notes                   |
 | -------- | ------------------------------------------- | ----------------------- |
-| mpd      | albums://C418/2%20years%20of%20failure      |                         |
+| mpd      | albums://C418/2%20years%20of%20failure      | -                       |
 | spop     | spotify:track:4cOdK2wGLETKBW3PvgPWqT        | Require Spotify plugin. |
 | webradio | https://somafm.com/nossl/groovesalad256.pls | -                       |
 
