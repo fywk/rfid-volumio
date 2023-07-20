@@ -21,11 +21,33 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
 
 ## Installation
 
-1. Ensure the SPI interface is activated, by adding the following line to `/boot/userconfig.txt`.
+1. Activate the SPI interface.
 
-   ```
-   dtparam=spi=on
-   ```
+   - Open the user's boot configuration file.
+
+     ```bash
+     nano /boot/userconfig.txt
+     ```
+
+   - Add the following line within the file:
+
+     ```
+     dtparam=spi=on
+     ```
+
+   - Save the changes to the configuration file. Then reboot the device.
+
+     ```bash
+     sudo reboot
+     ```
+
+   - Once rebooted, check if SPI has been successfully enabled by executing the following command:
+
+     ```bash
+      lsmod | grep spi
+     ```
+
+   - If **spi_bcm2835** is listed on the output, that means the SPI interface on your Raspberry Pi has been activated.
 
 2. Install `python-dotenv`, `spidev` and `mfrc522` Python modules.
 
@@ -52,8 +74,8 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
    000000000000,webradio,http://stream.live.vc.bbcmedia.co.uk/bbc_radio_two,BBC Radio Two,Web Radio
    ```
 
-   > **Note**:
-   > You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file.
+   | :bulb: | You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file. |
+   | ------ | :------------------------------------------------------------------------------------------------------------ |
 
 6. Run `main.py` to test if everything is working properly. You should hear music start playing when you scan a tag with a matching ID in `playback.csv`.
 
@@ -74,8 +96,8 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
    sudo systemctl enable rfid.service
    ```
 
-   > **Note**:
-   > Outputs from the script can be viewed by running `journalctl -f -u rfid.service` once the script is started automatically at boot time.
+   | :bulb: | Outputs from the script can be viewed by running `journalctl -f -u rfid.service` once the script is started automatically at boot time. |
+   | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Valid Playback URIs
 
