@@ -41,7 +41,7 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
      sudo reboot
      ```
 
-   - Once rebooted, check if SPI has successfully been enabled by executing the following command:
+   - Once rebooted, check if SPI has been successfully enabled by executing the following command:
 
      ```bash
       lsmod | grep spi
