@@ -27,6 +27,9 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
    dtparam=spi=on
    ```
 
+   | :sos: | If you encounter any problems enabling SPI, follow this [guide](https://pimylifeup.com/raspberry-pi-rfid-rc522/#setting-up-raspbian-for-the-rfid-rc522). |
+   | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
 2. Install `python-dotenv`, `spidev` and `mfrc522` Python modules.
 
    ```bash
@@ -52,8 +55,8 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
    000000000000,webradio,http://stream.live.vc.bbcmedia.co.uk/bbc_radio_two,BBC Radio Two,Web Radio
    ```
 
-   > **Note**:
-   > You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file.
+   | :bulb: | You can use spreadsheet software like Google Sheets to maintain all your records and export them as CSV file. |
+   | ------ | :------------------------------------------------------------------------------------------------------------ |
 
 6. Run `main.py` to test if everything is working properly. You should hear music start playing when you scan a tag with a matching ID in `playback.csv`.
 
@@ -74,8 +77,8 @@ Follow this [section](https://pimylifeup.com/raspberry-pi-rfid-rc522/#wiring-the
    sudo systemctl enable rfid.service
    ```
 
-   > **Note**:
-   > Outputs from the script can be viewed by running `journalctl -f -u rfid.service` once the script is started automatically at boot time.
+   | :bulb: | Outputs from the script can be viewed by running `journalctl -f -u rfid.service` once the script is started automatically at boot time. |
+   | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## Valid Playback URIs
 
